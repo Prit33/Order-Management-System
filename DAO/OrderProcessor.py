@@ -1,5 +1,3 @@
-from Model.Product import Product
-from Model.User import User
 from DAO.IOrderManagementRepository import IOrderManagementRepository
 from Util.DBUtil import DBUtil
 from Exception.UserNotFound import UserNotFound
@@ -137,7 +135,7 @@ class OrderProcessor(IOrderManagementRepository):
             cursor.execute("SELECT * FROM Users WHERE userId = ?", (user.getUserId(),))
             user_exists = cursor.fetchone()
 
-            if not user_exists:
+            if not user_exists:     #if user not exists, throw USERNOTFOUND exception
                 raise UserNotFound(f"User with ID {user.getUserId()} not found")
             
             cursor.execute(""" SELECT 
@@ -148,21 +146,19 @@ class OrderProcessor(IOrderManagementRepository):
                         WHERE u.userId = ?""", (user.getUserId()))
             data= cursor.fetchall()
 
-            if not data:
+            if not data:            #  if user hasn't given any order
                 print(f"\n User with ID {user.getUserId()} has no orders.")
                 return []
             
             return data
         except UserNotFound as error:
             print("Error:", error)
+            return []                       # returning empty list so that program won't break 
         except Exception as error:
             print("Error:", error)
+            return []
         finally:
             cursor.close()
     
 
-# obj=OrderProcessor()
-# obj.createOrder(2,20)
-# print(obj.createOrder(1, "laptop"))
-# print(obj.validateUser("dan"))
-# print(obj.getOrderByUser("prit"))
+

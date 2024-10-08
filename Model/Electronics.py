@@ -7,8 +7,7 @@ class Electronics(Product):
         self.warrantyPeriod = warrantyPeriod
 
 
-# obj= Electronics(1,"prit","hello",20,2,"samsung",2)
-# print(type(obj).__class_name__)
+
 
     
     
