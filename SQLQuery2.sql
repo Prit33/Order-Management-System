@@ -3,25 +3,12 @@ use Order_Management_System;
 
 
 CREATE TABLE Users (
-    --userId INT PRIMARY KEY IDENTITY(1,1),
     userId INT PRIMARY KEY,
     username VARCHAR(50),
     password VARCHAR(50),
     role VARCHAR(20)
 );
 
-drop table Users;
-drop table Products;
-/*
-SELECT CONSTRAINT_NAME
-FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
-WHERE TABLE_NAME = 'Users' AND CONSTRAINT_TYPE = 'PRIMARY KEY';
-
-ALTER TABLE Users
-DROP CONSTRAINT PK__Users__CB9A1CFF739AA669;
-
-ALTER TABLE Users
-ADD CONSTRAINT userId INT PRIMARY KEY IDENTITY(1,1);*/
 
 
 CREATE TABLE Products (
@@ -33,15 +20,13 @@ CREATE TABLE Products (
     type VARCHAR(50)
 );
 
---SELECT quantityInStock FROM Products WHERE productId = 10;
 
 CREATE TABLE Orders (
     orderId INT PRIMARY KEY IDENTITY(1,1),
     userId INT FOREIGN KEY REFERENCES Users(userId),
-    productId INT FOREIGN KEY REFERENCES Products(productId)
+    productId INT FOREIGN KEY REFERENCES Products(productId),
+    quantity int
 );
-
-alter table Orders add quantity int;
 
 CREATE TABLE Electronics (
     productId INT primary key, 
@@ -62,22 +47,18 @@ select * from Products;
 select * from Users;
 
 
-SELECT 
-    o.orderId, 
-    p.productName, 
-    p.description, 
-    p.price, 
-    o.userId, 
-    o.productId
-FROM Orders o
-JOIN Users u ON o.userId = u.userId
-JOIN Products p ON o.productId = p.productId
-WHERE u.username = 'Prit' ;
+-- SELECT 
+--     o.orderId, 
+--     p.productName, 
+--     p.description, 
+--     p.price, 
+--     o.userId, 
+--     o.productId
+-- FROM Orders o
+-- JOIN Users u ON o.userId = u.userId
+-- JOIN Products p ON o.productId = p.productId
+-- WHERE u.username = 'Prit' ;
 
 
-delete from users where userId=1;
 
-drop table orders;
-
-delete from Orders where orderId=7;
 
